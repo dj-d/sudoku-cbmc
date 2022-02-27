@@ -1,0 +1,128 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <assert.h>
+
+#define N 9
+
+int nondet_int();
+
+bool dp_in_row(int matrix[][N], int row, int start, int dim)
+{
+    for (int i = start; i < start + dim; i++)
+    {
+        int j = i + 1;
+        while (j < dim)
+        {
+            if (matrix[row][i] == matrix[row][j])
+            {
+                return true;
+            }
+
+            j++;
+        }
+    }
+
+    return false;
+}
+
+bool dp_in_col(int matrix[][N], int col, int start, int dim)
+{
+    for (int i = start; i < start + dim; i++)
+    {
+        int j = i + 1;
+        while (j < dim)
+        {
+            if (matrix[i][col] == matrix[j][col])
+            {
+                return true;
+            }
+
+            j++;
+        }
+    }
+
+    return false;
+}
+
+bool dp_in_sqr(int matrix[][N])
+{
+    for (int row = 0; row < N; row = row + 3)
+    {
+        for (int col = 0; col < N; col = col + 3)
+        {
+            for (int i = row; i < row + 3; i++)
+            {
+                if (dp_in_row(matrix, i, row, 3))
+                {
+                    return true;
+                }
+            }
+
+            for (int j = col; j < col + 3; j++)
+            {
+                if (dp_in_col(matrix, j, col, 3))
+                {
+                    return true;
+                }
+            }
+        }
+    }
+
+    return false;
+}
+
+bool is_solved(int sudoku[][N])
+{
+    // Check row
+    for (int i = 0; i < N; i++)
+    {
+        if (dp_in_row(sudoku, i, 0, N))
+        {
+            return false;
+        }
+    }
+
+    // Check column
+    for (int j = 0; j < N; j++)
+    {
+        if (dp_in_col(sudoku, j, 0, N))
+        {
+            return false;
+        }
+    }
+
+    // Check sqare
+    if (dp_in_sqr(sudoku))
+    {
+        return false;
+    }
+
+    return true;
+}
+
+int main(int argc, char const *argv[])
+{
+    int sudoku[N][N] = __TO_REPLACE__;
+
+    for (int i = 0; i < N; i++)
+    {
+        for (int j = 0; j < N; j++)
+        {
+            if (sudoku[i][j] == 0)
+            {
+                int guess = nondet_int();
+
+                __VERIFIER_assume(guess >= 1 && guess <= 9);
+
+                sudoku[i][j] = guess;
+            }
+        }
+    }
+
+    //SUDOKU_ASSERTION
+
+    assert(!is_solved(sudoku));
+
+    return 0;
+}
