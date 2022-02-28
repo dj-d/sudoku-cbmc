@@ -72,7 +72,7 @@ if __name__ == '__main__':
 
     create_model(args.sudoku_matrix)
 
-    os.system('cd ../cbmc-5.42.0 && ./cbmc ../part_I/model.c --trace > ../part_I/file.log')
+    os.system('cd ../cbmc && ./cbmc ../part_I/model.c --trace > ../part_I/file.log')
 
     fill_sudoku()
 

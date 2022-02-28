@@ -30,7 +30,7 @@ def init_model(sudoku, counter):
 
 
 def run(counter):
-    os.system(f'cd ../cbmc-5.42.0 && ./cbmc ../part_II/model_{counter}.c --trace > ../part_II/file_{counter}.log')
+    os.system(f'cd ../cbmc && ./cbmc ../part_II/model_{counter}.c --trace > ../part_II/file_{counter}.log')
 
 
 def is_solution(counter):
